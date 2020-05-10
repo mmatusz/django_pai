@@ -1,0 +1,8 @@
+{% extends "portal/base.html" %}
+{% block content %}
+        {% for post in posts %}
+        <h2>{{post.title}}</h2> 
+        <p>{{post.author}} dnia {{post.date}}</p>
+        <p>{{post.content}}</p>
+        {% endfor %}
+{% endblock content %}
