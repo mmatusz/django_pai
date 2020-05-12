@@ -2,6 +2,7 @@ from django.shortcuts import render
 from .models import Post
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+import json
 # Create your views here.
 
 class PostListView(ListView):
@@ -9,6 +10,9 @@ class PostListView(ListView):
     template_name = 'portal/home.html'
     context_object_name = 'posts'
     ordering = ['-post_date']
+    context = {}
+    context["items_json"] = json.dumps(context_object_name)
+
 
 class PostDetailedView(DetailView):
     model = Post
@@ -48,4 +52,7 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 def about(request):
     return render(request, 'portal/about.html', {'title': 'About'})
+
+def testVue(request):
+    return render(request, 'portal/test_vue.html')
 
