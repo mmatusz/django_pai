@@ -23,14 +23,15 @@ from django.conf.urls.static import static
 from django.conf.urls import url, include
 
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('register/', user_views.register, name='register'),
-    path('login/', login_views.LoginView.as_view(template_name='users/login.html'), name='login'),
+    path('login/', user_views.loginUser, name='login'),
     path('logout/', login_views.LogoutView.as_view(template_name='users/logout.html'), name='logout'),
     path('profile/', user_views.profile, name='profile'),
     path('', include('portal.urls')), #homepage
-] 
+]
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

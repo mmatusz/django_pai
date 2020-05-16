@@ -10,32 +10,68 @@
 <script>
         const Loginpage = {
                 delimiters: ['[[', ']]'],
+                data: function(){
+                    return{
+                        password:'',
+                        user:'',
+                    }
+                },
+                methods:{
+                },
                 template: `
                 <b-row class="justify-content-center">
                     <b-col cols="4">
-                        <form method="POST">
-                        <!--csrf_token -->
-                                {% csrf_token %}
-                                <fieldset class="form-group">
-                                        <legend class="border-bottom mb-4">Log in</legend>
-                                        {{ form|crispy }}
-                                </fieldset>
-                                <b-button variant="info" type="submit">Log in</b-button>
-                        </form>
-                        <div class="border-top pt-3">
-                                <small class="text-muted">Need an account? <a class="ml-2" href="../register">Sign up here </a></small>
+                         {% if messages %}
+                            {% for message in messages %}
+                                <div class="alert alert-{{ message.tags }}">
+                                {{ message }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                        <b-form method="POST">
+                            <b-form-group
+                                id="input-group-1"
+                                label="Username:"
+                                label-for="input-1"
+                            >
+                            {% csrf_token %}
+                                <b-form-input
+                                name="user"
+                                id="input-1"
+                                v-model="user"
+                                type="text"
+                                required
+                                placeholder="Enter username"
+                                ></b-form-input>
+                        </b-form-group>
+                        <b-form-group id="input-group-2" label="Password:" label-for="input-2">
+                                <b-form-input
+                                name="password"
+                                id="input-2"
+                                v-model="password"
+                                required
+                                type="password"
+                                placeholder="Enter password"
+                                ></b-form-input>
+                        </b-form-group>
+                            <b-button size="sm" variant="info" type="submit">
+                                Login
+                            </b-button>
+                        </b-form>
+                        </div>
+                        <div class="d-flex flex-row justify-content-center">
+                            <p class="text-muted">Need an account?<a class="ml-2" href="../register">Sign up here.</a></p>
                         </div>
                     </b-col>
                 </b-row>
-                `
-            }
-
+                `,
+        }
             var app = new Vue({
             el: '#login',
             data: {
             },
             components:{ 
-            Loginpage
+                Loginpage
             },
         })
         </script>

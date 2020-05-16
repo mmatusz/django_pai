@@ -47,9 +47,3 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return False
 
 
-def about(request):
-    return render(request, 'portal/about.html', {'title': 'About'})
-
-##def testVue(request):
-  ##  return render(request, 'portal/test_vue.html')
-
