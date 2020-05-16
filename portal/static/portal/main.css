@@ -16,6 +16,7 @@ ul {
   background-color: #5f788a;
 }
 
+
 .site-header .navbar-nav .nav-link {
   color: #cbd5db;
 }
@@ -45,14 +46,14 @@ a.article-title:hover {
   text-decoration: none;
 }
 
-.article-content {
-  white-space: pre-line;
+.p-details {
+  overflow-wrap: anywhere;
 }
 
 .article-img {
-  height: 65px;
-  width: 65px;
-  margin-right: 16px;
+  height: 100%;
+  width: 100%;
+  margin-right: 5px;
 }
 
 .article-metadata {

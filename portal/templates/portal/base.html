@@ -22,76 +22,36 @@
         <title>Django website</title>
     {% endif %}
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> <!--add axios-->
+    <script src="https://unpkg.com/vuex@3.4.0/dist/vuex.js"></script> <!--add vuex-->
+    <script src="https://unpkg.com/vue-router@2.0.0/dist/vue-router.js"></script> <!--add vue-router-->
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     
 </head>
 <body>
-    <!--
-    <header class="site-header">
-    nawigacja
-    <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
-        <div class="container">
-            <a class="navbar-brand mr-4" href="/">Django Blog</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-        <div class="collapse navbar-collapse" id="navbarToggle">
-            <div class="navbar-nav mr-auto">
-                <a class="nav-item nav-link" href="{% url 'portal-homepage' %}">Home</a>             
-                <a class="nav-item nav-link" href="{% url 'portal-about' %}">About</a>
-            </div>
-            
-            {% if user.is_authenticated %}
-                <a class="nav-item nav-link" href="{% url 'profile' %}">My profile</a>
-                <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
-            {% else %}
-            <div class="navbar-nav">
-                <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
-                <a class="nav-item nav-link" href="{% url 'register' %}">Register</a>
-            </div>
-            {% endif %}
-        </div>
-        </div>
-    </nav>
-    </header>
--->
     <div id="base">
-    <header>
-    <b-navbar class="mb-3" toggleable="lg" type="dark" variant="info">
-        <b-navbar-brand>Poster portal</b-navbar-brand>
-        <b-navbar-nav class="ml-auto">
-            <b-nav-item href="{% url 'portal-homepage' %}">Home</b-nav-item>
-        </b-navbar-nav>
-        <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
-        <b-collapse id="nav-collapse" is-nav>
-            <b-navbar-nav class="ml-auto">
-            {% if user.is_authenticated %}
-            <b-nav-item right href="{% url 'profile' %}">Profile</b-nav-item>
-            <b-nav-item right href="{% url 'logout' %}">Logout</b-nav-item>
-            {% else %}
-            <b-nav-item right href="{% url 'login' %}">Log in</b-nav-item>
-            <b-nav-item right href="{% url 'register' %}">Register</b-nav-item>
-            {% endif %}
-        </b-collapse>
-    </b-navbar>
-</header>
-        <b-container fluid='lg'>
-            <b-row>
-                    <b-col>{% block filters %}{% endblock %}</b-col>
-                    <b-col cols="8">
-                    {% if messages%}
-                        {% for message in messages%}
-                            <div class="alert alert-{{ message.tags }}">
-                            {{ message }}
-                            </div>
-                        {% endfor %}
+        <header>
+            <b-navbar class="mb-3" toggleable="lg" type="dark" variant="info">
+                <b-navbar-brand>Poster portal</b-navbar-brand>
+                <b-navbar-nav class="ml-auto">
+                    <b-nav-item href="{% url 'portal-homepage' %}">Home</b-nav-item>
+                </b-navbar-nav>
+                <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+                <b-collapse id="nav-collapse" is-nav>
+                    <b-navbar-nav class="ml-auto">
+                    {% if user.is_authenticated %}
+                    <b-nav-item right href="{% url 'profile' %}">Profile</b-nav-item>
+                    <b-nav-item right href="{% url 'logout' %}">Logout</b-nav-item>
+                    {% else %}
+                    <b-nav-item right href="{% url 'login' %}">Log in</b-nav-item>
+                    <b-nav-item right href="{% url 'register' %}">Register</b-nav-item>
                     {% endif %}
-                    
-                    {% block content %}{% endblock %}
-                    </b-col>
-            </b-row>
-        </b-container>
-    </div>
+                </b-collapse>
+            </b-navbar>
+        </header>
+    </div>               
+        {% block content %}
+
+        {% endblock %}
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>

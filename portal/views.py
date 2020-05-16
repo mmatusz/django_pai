@@ -7,19 +7,16 @@ import json
 
 class PostListView(ListView):
     model = Post
-    template_name = 'portal/home.html'
+    template_name = 'portal/home.html' ##zmiana
     context_object_name = 'posts'
     ordering = ['-post_date']
-    context = {}
-    context["items_json"] = json.dumps(context_object_name)
-
 
 class PostDetailedView(DetailView):
     model = Post
 
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
-    fields = ['title', 'content']
+    fields = ['title', 'content','image']
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -53,6 +50,6 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 def about(request):
     return render(request, 'portal/about.html', {'title': 'About'})
 
-def testVue(request):
-    return render(request, 'portal/test_vue.html')
+##def testVue(request):
+  ##  return render(request, 'portal/test_vue.html')
 

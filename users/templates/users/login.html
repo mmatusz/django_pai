@@ -1,23 +1,42 @@
 {% extends "portal/base.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
-        <div class="content-section">
-                <form method="POST">
-                <!--csrf_token -->
-                        {% csrf_token %}
-                        <fieldset class="form-group">
-                                <legend class="border-bottom mb-4">Log in</legend>
-                                {{ form|crispy }}
-                        </fieldset>
-                <div class="form-group">
-                        <button class="btn btn-outline-info" type="submit">Log in</button>
-                </div>
-                </form>
-                <div class="border-top pt-3">
-                        <small class="text-muted">Need account?<a class="ml-2" href="../register">klik</a></small>
-                </div>
-                <div class="border-top pt-3">
-                        <small class="text-muted">Forgot password?<a class="ml-2" href="#">klik</a></small>
-                </div>
-        </div>
+<div id='login'>
+        <b-container fluid="md">
+                <loginpage></loginpage>
+        </b-container>
+    </div>
+
+<script>
+        const Loginpage = {
+                delimiters: ['[[', ']]'],
+                template: `
+                <b-row class="justify-content-center">
+                    <b-col cols="4">
+                        <form method="POST">
+                        <!--csrf_token -->
+                                {% csrf_token %}
+                                <fieldset class="form-group">
+                                        <legend class="border-bottom mb-4">Log in</legend>
+                                        {{ form|crispy }}
+                                </fieldset>
+                                <b-button variant="info" type="submit">Log in</b-button>
+                        </form>
+                        <div class="border-top pt-3">
+                                <small class="text-muted">Need an account? <a class="ml-2" href="../register">Sign up here </a></small>
+                        </div>
+                    </b-col>
+                </b-row>
+                `
+            }
+
+            var app = new Vue({
+            el: '#login',
+            data: {
+            },
+            components:{ 
+            Loginpage
+            },
+        })
+        </script>
 {% endblock content %}

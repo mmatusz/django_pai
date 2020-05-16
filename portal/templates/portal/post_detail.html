@@ -1,20 +1,47 @@
 {% extends "portal/base.html" %}
 {% block content %}
-        <article class="media content-section">
-            <img class="rounded-circle article-img" src="{{ object.author.profile.image.url }}">
-            <div class="media-body">
-                <div class="article-metadata">
-                    <a class="mr-2" href="#">{{ object.author }}</a>
-                    <small class="text-muted">{{ object.post_date|date:"l d E, Y H:i"}}</small>
-                    {% if object.author == user %}
-                    <div>
-                        <a class="btn btn-success btn-sm mt-1 mb-1" href ="{% url 'post-update' object.id %}">Edit post </a>
-                        <a class="btn btn-danger btn-sm mt-1 mb-1" href ="{% url 'post-delete' object.id %}">Delete post </a>
-                    </div>
-                    {% endif %}
-                </div>
-                <h2 class="article-title">{{ object.title }}</h2>
-                <p class="article-content">{{ object.content }}</p>
-            </div>
-        </article>
+    <div id='details'>
+        <b-container fluid='lg'>
+            <detailed></detailed>
+        </b-container>
+    </div>
+
+<script>
+        const Detailed = {
+                delimiters: ['[[', ']]'],
+                template:
+                `<b-row>
+                    <b-col md="3">
+                        <img class="article-img" src="{{ object.image.url }}">
+                    </b-col>
+                    <b-col md="9">
+                        <article class="media content-section">
+                        <b-media>
+                            <div class="article-metadata">
+                                <a class="mr-2" href="#">{{ object.author }}</a>
+                                <small class="text-muted">{{ object.post_date|date:"l d E, Y H:i"}}</small>
+                                {% if object.author == user %}
+                                <div class="edit-content">
+                                    <b-button variant="success" href ="{% url 'post-update' object.id %}">Edit post </b-button>
+                                    <b-button variant="danger" href ="{% url 'post-delete' object.id %}">Delete post </b-button>
+                                </div>
+                                {% endif %}
+                            </div>
+                        <h2 class="article-title">{{ object.title }}</h2>
+                        <p class="mb-0 p-details">{{ object.content }}</p>
+                        </b-media>
+                        </article>
+                    </b-col>
+                </b-row>`
+                }
+            var app = new Vue({
+            el: '#details',
+            data: {
+                search: '',
+                items: [],
+            },
+            components:{ Detailed
+            },
+        })
+        </script>
 {% endblock content %}

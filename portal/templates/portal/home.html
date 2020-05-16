@@ -1,23 +1,112 @@
 {% extends "portal/base.html" %}
-{% block filters %}
-        <div class="content-section">
-            <h3>Tu będzie wyszukiwarka...
-            </h3>
-        </div>
-{% endblock filters%}
 {% block content %}
-        {% for post in posts %}
-        <article class="media content-section">
-            <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}">
-            <div class="media-body">
-                <div class="article-metadata">
+<div id='app'>
+<b-container fluid='lg'>
+            <b-row>
+                <b-col cols="3">
+                <!--search component-->
+                <searchbox :search.sync="search"></searchbox>
+                </b-col>
+                <b-col cols="9">
+                        {% if messages%}
+                            {% for message in messages %}
+                                <div class="alert alert-{{ message.tags }}">
+                                {{ message }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                        
+                <!--list post component-->
+                <postlist :items="itemsToDisplay"></postlist>
                 
-                <a class="mr-2" href="#">{{ post.author }}</a>
-                <small class="text-muted">{{ post.post_date|date:"l d E, Y H:i"}}</small>
-                </div>
-                <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
-                <p class="article-content">{{ post.content }}</p>
-            </div>
-        </article>
-        {% endfor %}
+                </b-col>
+            </b-row>
+</b-container>
+</div>
+        <script>
+            const Searchbox = {
+                delimiters: ['[[', ']]'],
+                data: function () {
+                    return {
+                    search: ''
+                    }
+                },
+                template:
+                `<div class="search-wrapper">
+                <nav class="navbar navbar-light">
+                <input class="form-control" 
+                type="text" 
+                placeholder="Search by title or author..." 
+                aria-label="Search""
+                v-model="search"
+                @input="$emit('update:search', search)">
+                </nav>
+                </div>`
+                }
+
+            const Postlist = {
+                delimiters: ['[[', ']]'],
+                data: function () {
+                    return {
+                    count: 0
+                    }
+                },
+                props: ['items'],
+                template:
+                `<div id="list">
+                    <b-card style="max-width: 600px; margin-bottom:10px;"
+                    :items="items"
+                    v-for="item in items.slice().reverse()" :key="item.id"
+                    >
+                            <b-row no-gutters>
+                                <b-col md="3">
+                                    <b-card-img :src="''+[[item.image]]" alt="Image" class="rounded-0"></b-card-img>
+                                </b-col>
+                                <b-col md="9">
+                                    <b-card-body
+                                    :title=item.title
+                                    >
+                                     <b-card-sub-title
+                                     class="mb-2">
+                                    Posted by [[item.author.username]] on [[item.post_date.substring(0,10)]]
+                                    </b-card-sub-title>
+                                    <b-card-text>
+                                        [[item.content]]
+                                    </b-card-text>
+                                    <b-card-text>  
+                                    </b-card-text>
+                                    <a :href="'/post/' + item.id">See details</a>
+                                    </b-card-body>
+                                </b-col>
+                            </b-row>
+                    </b-card>
+                    </div>`
+                }
+            var app = new Vue({
+            el: '#app',
+            data: {
+                search: '',
+                items: [],
+            },
+            components:{ Searchbox, Postlist
+            },
+            computed: {
+                itemsToDisplay(){
+                return this.items.filter(item => item.title.toLowerCase().includes(this.search.toLocaleLowerCase()) || item.author.username.toLocaleLowerCase().includes(this.search.toLocaleLowerCase()));
+            }
+            },
+            mounted() {
+            axios
+                .get('http://localhost:8000/api/v1/post')
+                .then(res => {
+                    this.items = res.data.objects;
+                })
+                .catch(err => {
+                    console.warn(err);
+                });
+        }
+        })
+        </script>
+
 {% endblock content %}
+
