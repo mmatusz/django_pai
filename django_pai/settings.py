@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'PIL',
     'django_cleanup',
+    'tastypie',
 ]
 
 MIDDLEWARE = [
